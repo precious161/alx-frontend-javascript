@@ -1,39 +1,59 @@
+// Interfaces
 interface DirectorInterface {
-  workForHome(): string;
+  workFromHome(): string;
   getCoffeeBreak(): string;
   workDirectorTasks(): string;
 }
-interface TeachcerInterface {
-  workForHome(): string;
+
+interface TeacherInterface {
+  workFromHome(): string;
   getCoffeeBreak(): string;
-  workDirectorTasks(): string;
+  workTeacherTasks(): string;
 }
+
+// Classes
 class Director implements DirectorInterface {
-  workForHome = () => {
+  workFromHome(): string {
     return "Working from home";
-  };
-  getCoffeeBreak = () => {
+  }
+  getCoffeeBreak(): string {
     return "Getting a coffee break";
-  };
-  workDirectorTasks = () => {
+  }
+  workDirectorTasks(): string {
     return "Getting to director tasks";
-  };
+  }
 }
-class Teacher implements TeachcerInterface {
-  workForHome = () => {
+
+class Teacher implements TeacherInterface {
+  workFromHome(): string {
     return "Cannot work from home";
-  };
-  getCoffeeBreak = () => {
+  }
+  getCoffeeBreak(): string {
     return "Cannot have a break";
-  };
-  workDirectorTasks = () => {
+  }
+  workTeacherTasks(): string {
     return "Getting to work";
-  };
+  }
 }
+
+// Factory Function
 function createEmployee(salary: number | string): Director | Teacher {
   if (typeof salary === "number" && salary < 500) {
     return new Teacher();
+  }
+  return new Director();
+}
+
+// Type Predicate
+function isDirector(employee: Director | Teacher): employee is Director {
+  return employee instanceof Director;
+}
+
+// Execute Work
+function executeWork(employee: Director | Teacher): string {
+  if (isDirector(employee)) {
+    return employee.workDirectorTasks();
   } else {
-    return new Director();
+    return employee.workTeacherTasks();
   }
 }
